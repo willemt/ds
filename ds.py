@@ -1,6 +1,4 @@
 
-
-
 import getopt, sys
 
 import Backend
@@ -19,6 +17,21 @@ cmds = [
 def groupusers():
     import grp
     return { g.gr_name : set(g.gr_mem) for g in grp.getgrall() }
+
+def loadcfg(fname):
+    import json
+
+    cfg = json.load(open(fname))
+    explodeGroups(cfg, groupusers())
+    return cfg
+
+def explodeGroups(cfg,groups):
+    # explode groups (indicated by + prefix)
+    for cl, val in cfg['classes'].iteritems():
+        for ii, ap in enumerate(val['approvers']):
+            if ap.startswith('+'):
+                val['approvers'].pop(ii)
+                val['approvers'].extend([ u for u in groups[ap[1:]]])
 
 def main():
 
@@ -44,9 +57,7 @@ def main():
 
     args = parser.parse_args()
 
-    import json
-
-    cfg = json.load(open("config.json"))
+    cfg = loadcfg("config.json")
 
     import getpass
     
@@ -58,9 +69,8 @@ def main():
 
     b = Backend.Backend("test",cfg)
 
-
     if args.approve:
-        print b.approveCommand(args.approve, uid)
+        print b.approveCommand(args.approve[0], uid)
 
     elif args.cmd:
         b.addCommand(" ".join(args.cmd), uid)

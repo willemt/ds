@@ -4,34 +4,37 @@ import Command
 
 
 
-def approved(cmd,approvals,groups,cfg):
+def approved(cmd,approvals,cfg):
     """
         command has been approved according to this set of approvers
-        @param cmd
-        @param approvals set of approvals
-        @param cfg ruleset
+        @param cmd : command to approve
+        @param approvals : set of approvals
+        @param cfg : ruleset
     """
 
     for g in cmd.groups:
+
         try:
             rules = cfg['classes'][g]
         except:
-            return "does not have class", g
+            return "Invalid class provided:", g
 
+        # Count number of valid approvers
         napprovers = 0
         for u in rules['approvers']:
             if u in approvals:
                 napprovers += 1
 
+        # Make sure number of valid approvers is met
         if napprovers < rules['required']:
-            return "doesn't meet number of approvers required", rules['required']
+            return "Doesn't meet number of approvers required", rules['required']
             
+        # Ensure mandatory approvers are met
         for u in rules['mandatory']:
             if u not in approvals:
-                return "don't have mandatory approver:", u
+                return "Don't have mandatory approver:", u
 
     return "YES"
-
 
 
 class Backend(object):
@@ -51,7 +54,7 @@ class Backend(object):
             self.d['commands']
         except KeyError:
             self.d['seqn'] = 0
-            self.d['commands'] = {}
+            self.d['commands'] = dict()
             # (cmdid, uid)
             self.d['approvals'] = {}
 
@@ -82,14 +85,10 @@ class Backend(object):
     def approveCommand(self,ci,uid):
         """ @param ci: cmdid """
         
-        try:
-            _ = self.d['approvals'][ci]
-        except KeyError:
+        if ci not in self.d['approvals']:
             self.d['approvals'][ci] = set()
 
         self.d['approvals'][ci].add(uid)
-
-        print "approvers", self.d['approvals'][ci]
 
         cmd = self.d['commands'][int(ci)]
 

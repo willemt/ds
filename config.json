@@ -5,10 +5,10 @@
 	},
 
 	"classes" : {
-		"admin" : {
-			"approvers" : [ "mark", "simon", "+admin" ],
-			"required" : 2,
-			"mandatory" : [ "mark" ]
+		"root" : {
+			"approvers" : [ "ami", "simon", "+admin" ],
+			"required" : 1,
+			"mandatory" : [ "ami" ]
 		}
 	}
 }
