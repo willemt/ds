@@ -5,21 +5,16 @@ import getopt, sys
 
 import Backend
 
-#cmds = [
-#        ("command", "Append command to pending list"),
-#        ("-g group command", "Restrict command to this group's privileges"),
-#        ("-p cmdid command", "Require this command to run before command can be run"),
-#        ("-a cmdid", "Approve command"),
-#        ("-r cmdid", "Remove command"),
-#        ("-l [cmdid]", "List commands requiring approval"),
-#        ("-lv [cmdid]", "List with further details"),
-#        ("-d [backend]", "Create new database. Optionally specify backend.")
-#        ]
-#
-#def usage():
-#    print "Usage:"
-#    for c in cmds:
-#        print "ds %-20s %-50s" % c
+cmds = [
+        ("command", "Append command to pending list"),
+        ("-g group command", "Restrict command to this group's privileges"),
+        ("-p cmdid command", "Require this command to run before command can be run"),
+        ("-a cmdid", "Approve command"),
+        ("-r cmdid", "Remove command"),
+        ("-l [cmdid]", "List commands requiring approval"),
+        ("-lv [cmdid]", "List with further details"),
+        ("-d [backend]", "Create new database. Optionally specify backend.")
+        ]
 
 def groupusers():
     import grp
@@ -39,7 +34,8 @@ def main():
     parser.add_argument('-g', '--groups', metavar='grp', nargs='+',
                        help='Run with these groups'' privileges')
     parser.add_argument('-p', '--prerequisite', metavar='cmdid', nargs='?',
-                       help='Only allow the running of the command once this command has run. The command is specified by the cmdid')
+                       help='Only allow the running of command once this command has run.'\
+                            'The command is specified by the cmdid')
     parser.add_argument('-l', '--list', metavar='cmdid', nargs='?',
                          type=int, default=0,
                          help='List details')
@@ -47,52 +43,6 @@ def main():
                        help='Create new database. Optionally specify backend.')
 
     args = parser.parse_args()
-
-    print args
-
-    """
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "rcaho:vg:l", ["help", "output="])
-    except getopt.GetoptError, err:
-        # print help information and exit:
-        print str(err) # will print something like "option -a not recognized"
-        usage()
-        sys.exit(2)
-
-    output = None
-    verbose = False
-
-    add = True
-    remove = True
-    approve = False
-    createDB = False
-
-
-    for o, a in opts:
-        if o == "-v":
-            verbose = True
-        elif o in ("-h", "--help"):
-            usage()
-            sys.exit()
-        elif o in ("-o", "--output"):
-            output = a
-        elif o in ("-g"):
-            group = a
-        elif o in ("-a"):
-            approve = True
-        elif o in ("-r"):
-            remove = True
-        elif o in ("-c"):
-            createDB = True
-        elif o in ("-l"):
-            b = Backend.Backend("test",cfg)
-            print a
-            print(b.getPendingCommands(str(a)))
-            exit(1)
-        else:
-            assert False, "unhandled option"
-    # ...
-    """
 
     import json
 
@@ -108,11 +58,6 @@ def main():
 
     b = Backend.Backend("test",cfg)
 
-#    if len(args) < 1:
-#        usage()
-#        exit(0)
-
-    print "aaa"
 
     if args.approve:
         print b.approveCommand(args.approve, uid)
@@ -128,15 +73,9 @@ def main():
 
     exit(1)
 
-#$    print b.getPendingCommands()
-
- #$   print b.getPendingCommands(cmdid="1")
-    
-
 
 if __name__ == "__main__":
     main()
-
 
 
 # vim: set expandtab sw=4 ts=4:

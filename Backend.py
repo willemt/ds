@@ -45,7 +45,6 @@ class Backend(object):
         else:
             flags = 'w'
 
-        print flags
         self.d = shelve.open(fname,flags,writeback=True)
 
         try:
@@ -102,14 +101,6 @@ class Backend(object):
             return ret
 
                
-                
-
-#        self.cfg["classes"]:
-#        self.d.sync()
-
-#        if len(approvers) == required:
-#            print "run command", ci
-        
 
 import unittest
 
@@ -119,7 +110,7 @@ class TestBackend(unittest.TestCase):
         pass
 
     def test_addCommandAddsAsPending(self):
-        # Make sure commands are added
+        """ Make sure commands are added """
         b = Backend("test.db")
 
         b.addCommand("test")
@@ -129,9 +120,6 @@ class TestBackend(unittest.TestCase):
     def test_addCommandGivesCommandID(self):
         b = Backend("test.db")
         self.assertTrue(1 == b.addCommand("test"))
-
-
-
 
 if __name__ == '__main__':
     unittest.main()
