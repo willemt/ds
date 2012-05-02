@@ -1,0 +1,14 @@
+{
+
+	"options" : {
+		"default_approvals_required" : 2
+	},
+
+	"classes" : {
+		"admin" : {
+			"approvers" : [ "mark", "simon", "+admin" ],
+			"required" : 2,
+			"mandatory" : [ "mark" ]
+		}
+	}
+}

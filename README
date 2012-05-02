@@ -1,0 +1,27 @@
+NAME
+    ds - require command to be run with multiple approval
+
+SYNOPSIS
+    ds 
+
+    ds [-h|--help]
+
+    ds [-v|--version]
+
+DESCRIPTION
+     ds is alpha software and is not ready for use!
+
+SEE ALSO
+    sudo(1)
+
+BUGS
+    If you find the bug or want to implement new features, please report it
+    at https://github.com/willemt/ds/issues
+
+AUTHORS
+    Copyright (c) 2012 Willem Thiart <himself.willemthiart.com>
+
+COPYING
+    ds is distributed under the GNU Lesser General Public License
+    (LGPL 2.1 or greater).
+
